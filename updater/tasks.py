@@ -17,12 +17,11 @@ def query_rows(q):
     )
 
 @app.task
-def jsonify_records(rset, columns):
+def jsonify_records(data, columns):
     """
     Given a resultset and a list with the columns for the
     proper identification, convert the data into json format.
     """
-    records = []
-    for record in rset:
-         records.append(dict(zip(columns, record)))
-    return json.dumps(records)
+    data = [zip(columns, datum) for datum in data]
+    data = [{column: value for column, value in datum} for datum in data]
+    return json.dumps(data)
