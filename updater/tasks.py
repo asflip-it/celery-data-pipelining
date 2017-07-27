@@ -5,9 +5,9 @@ import json
 from updater import app
 
 @app.task
-def query_rows(q):
+def fetch(q):
     """
-    Should retrieve relational database rows based on the
+    Should fetch relational database rows based on the
     given query.
     """
     return (
@@ -17,7 +17,17 @@ def query_rows(q):
     )
 
 @app.task
-def jsonify_records(data, columns):
+def parse(data, tablename='processo'):
+    """
+    Should intercept the data fetched from the db and apply
+    the formating, cleanse, wrangling and all proper data
+    preparation steps.
+    """
+    if tablename == 'processo':
+        pass
+
+@app.task
+def jsonify(data, columns):
     """
     Given a resultset and a list with the columns for the
     proper identification, convert the data into json format.
