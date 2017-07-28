@@ -3,6 +3,7 @@
 import json
 
 from updater import app
+from updater.parser import Processo
 
 @app.task
 def fetch(q):
@@ -23,15 +24,18 @@ def parse(data, tablename='processo'):
     the formating, cleanse, wrangling and all proper data
     preparation steps.
     """
+    parsed = []
     if tablename == 'processo':
-        pass
+        for datum in data:
+            p = Processo(datum)
+            parsed.append(p.value)
+    return parsed
 
 @app.task
-def jsonify(data, columns):
+def jsonify(data):
     """
     Given a resultset and a list with the columns for the
     proper identification, convert the data into json format.
     """
-    data = [zip(columns, datum) for datum in data]
     data = [{column: value for column, value in datum} for datum in data]
     return json.dumps(data)

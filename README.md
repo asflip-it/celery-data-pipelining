@@ -16,4 +16,4 @@
 Abrir o `ipython` em um terminal e executar as seguintes instruções:
 
     > from updater.tasks import query_rows, jsonify_records
-    > (query_rows.s('SELECT * FROM processo') | jsonify_records.s(('soi', 'tipo', 'juizado', 'classe')))()
+    > (fetch.s('') | parse.s(tablename='processo') | jsonify.s())()
